@@ -1,14 +1,14 @@
-# 🎮 VGC Game Console
+#   Game Console
 
 A Linux-based virtual game console that runs three terminal games — **Snake**, **Tic-Tac-Toe**, and **Space Invaders** — inside a mounted disk image using a simple menu-driven main screen.
 
-> ⚠️ **Linux only.** The project relies on POSIX APIs (`fork`, `losetup`, `mount`, `termios`) that are not available on Windows or macOS.
+>  **Linux only.** The project relies on POSIX APIs (`fork`, `losetup`, `mount`, `termios`) that are not available on Windows or macOS.
 
 ---
 
 ## Prerequisites
 
-- Linux (tested on distributions with `ext4` support)
+- Linux
 - GCC (C compiler)
 - `sudo` access (required for `losetup` and `mount`)
 - `dd`, `mkfs.ext4` (usually available by default)
@@ -83,7 +83,7 @@ bash purge.sh
 | `Enter` | Launch selected game |
 | `Q` | Quit the console |
 
-### 🐍 Snake (`src1.c` → `game_snake`)
+### Snake (`src1.c` → `game_snake`)
 
 | Key | Action |
 |-----|--------|
@@ -97,7 +97,7 @@ bash purge.sh
 - Snake head: `O`, tail: `#`, food: `X`
 - Hitting a border or the tail pauses movement until the next valid input.
 
-### ❌ Tic-Tac-Toe (`src3.c` → `game_tictactoe`)
+###  Tic-Tac-Toe (`src3.c` → `game_tictactoe`)
 
 | Key | Action |
 |-----|--------|
@@ -108,7 +108,7 @@ bash purge.sh
 - The computer picks a random empty cell on its turn.
 - The game displays **YOU WON!**, **YOU LOST!**, or **DRAW!** and restarts.
 
-### 👾 Space Invaders (`src2.c` → `game_invadespace`)
+###  Space Invaders (`src2.c` → `game_invadespace`)
 
 | Key | Action |
 |-----|--------|
@@ -135,17 +135,9 @@ game-console/
 ├── startup.sh          # Mount image and create loop device
 ├── terminate.sh        # Unmount image and remove loop device
 ├── purge.sh            # Full cleanup (unmount + delete image)
-├── .gitignore
 └── README.md
 ```
 
-> The compiled binaries and the `storage_vgc.img` disk image are excluded from version control via `.gitignore`. Run `initialize.sh` and the `gcc` commands above after cloning.
 
----
 
-## Notes & Limitations
 
-- The disk image (`storage_vgc.img`) is **not** committed to the repository. It must be created locally with `initialize.sh`.
-- `startup.sh` and `terminate.sh` require `sudo` for `losetup` and `mount`/`umount`.
-- Signal handling: pressing `Q` or sending `SIGINT`/`SIGTERM` to the main screen will also propagate the signal to the active child game process.
-- To kill only the running game (and return to the main screen), send `SIGTERM` or `SIGINT` directly to the game's PID using `kill`.
